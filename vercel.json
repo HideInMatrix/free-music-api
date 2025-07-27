@@ -3,7 +3,7 @@
   "name": "nest-music-api",
   "builds": [
     {
-      "src": "package.json",
+      "src": "/src/main.ts",
       "use": "@vercel/node"
     }
   ],
