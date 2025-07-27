@@ -12,12 +12,12 @@ async function bootstrap() {
   
   // 允许来自 http://localhost:3000 的请求
   app.enableCors({
-    origin: 'http://localhost:3000',
+    origin: 'http://localhost:3001',
     credentials: true, // 允许发送 Cookie
   });
 
   // 设置Swagger文档
   SwaggerConfig.setup(app);
-  await app.listen(8001);
+  await app.listen(3000);
 }
 bootstrap();
