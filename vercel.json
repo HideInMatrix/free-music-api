@@ -1,16 +1,16 @@
 {
   "builds": [
     {
-      "src": "src/main.ts",
-      "use": "@vercel/node"
+      "src": "src/main.ts",  
+      "use": "@vercel/node" 
     }
   ],
+  "outputDirectory": "dist", 
+  "cleanUrls": true, 
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "src/main.ts",
-      "methods": ["GET", "POST", "PUT", "DELETE"]
+      "dest": "/dist/$1"
     }
-  ],
-  "outputDirectory": "dist"
+  ]
 }
