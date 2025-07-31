@@ -1,12 +1,13 @@
 import { Module } from '@nestjs/common';
 
 import { YTMusicModule } from './ytmusic/ytmusic.module';
+import { BiliModule } from './bili/bili.module';
 import { ConfigModule } from '@nestjs/config';
-import { HelloModule } from './hello/hello.module';
 
 @Module({
-  imports: [ YTMusicModule,
-    HelloModule,
+  imports: [
+    BiliModule, 
+    YTMusicModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ['.env.local', '.env'],

@@ -12,7 +12,7 @@ async function bootstrap() {
   
   // 允许来自 http://localhost:3000 的请求
   app.enableCors({
-    origin: 'http://localhost:3001',
+    origin: 'https://music.micromatrix.org',
     credentials: true, // 允许发送 Cookie
   });
 
