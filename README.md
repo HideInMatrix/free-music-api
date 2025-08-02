@@ -1,61 +1,11 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# 音乐API项目
+
+## ✨ 特性 
+
+- 已完成了Youtube Music API
+- 完成部分BiliBili音乐API
 
 
-## Description
+本仓库只是示例，来自于网络公开的接口，并过滤掉所有VIP/收费/试听歌曲。仅供学习参考使用，请不要用于任何商业用途，合理合法使用。
 
-NestJS 便捷模版
-
-## Support
-
-1. 用户认证
-2. 用户授权
-3. 接口返回统一
-4. prisma ORM操作数据库
-5. eslint 代码检测
-6. 代码自动化测试
-
-## Installation
-
-```bash
-$ pnpm install
-```
-
-## Running the app
-
-```bash
-# init prisma
-npx prisma generate
-# create db if you need
-npx prisma db push
-
-```
-
-```bash
-# development
-$ pnpm run start
-
-# watch mode
-$ pnpm run start:dev
-
-# production mode
-$ pnpm run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ pnpm run test
-
-# e2e tests
-$ pnpm run test:e2e
-
-# test coverage
-$ pnpm run test:cov
-```
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+本项目仅供学习参考使用，基于 MIT 协议开源；请在符合法律法规的情况下合理使用本项目，禁止用于商业目的使用。
