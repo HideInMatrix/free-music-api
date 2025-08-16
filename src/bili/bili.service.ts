@@ -660,30 +660,59 @@ export class BiliService {
 
   // 获取排行榜详情
   async getTopListDetail(topListItem: any) {
-  
-    // try {
-      let cookie = await this.getCookie();
+    try {
+      // 1. 获取cookie
+      const cookie = await this.getCookie();
+      
+      // 2. 构造请求头
+      const headers = {
+        ...this.headers,
+        'referer': 'https://www.bilibili.com/',
+        'origin': 'https://www.bilibili.com',
+        'cookie': `buvid3=${cookie.b_3};buvid4=${cookie.b_4}`,
+      };
+
+      // 3. 获取时间戳
+      const wts = Math.floor(Date.now() / 1000);
+      
+      // 4. 构造参数
+      const params = {
+        rid: topListItem.id.match(/rid=(\d+)/)?.[1], // 从 id 中提取 rid
+        type: topListItem.id.match(/type=(\w+)/)?.[1], // 从 id 中提取 type
+        wts
+      };
+
+      // 5. 获取 w_rid
+      const w_rid = await this.getRid(params);
+
+      // 6. 发送请求
       const response = await firstValueFrom(
         this.httpService.get(`https://api.bilibili.com/x/web-interface/${topListItem.id}`, {
-          headers: {
-            ...this.headers,
-            referer: 'https://www.bilibili.com/',
-          },
+          headers,
+          params: {
+            ...params,
+            w_rid
+          }
         })
       );
-      console.log(cookie);
-      console.log(this.headers);
-      
-      
+
+      if (response.data.code !== 0) {
+        throw new HttpException(
+          response.data.message || '获取排行榜详情失败',
+          HttpStatus.BAD_REQUEST
+        );
+      }
+
+      // 7. 格式化返回数据
       return {
         ...topListItem,
         musicList: response.data.data.list.map(this.formatMedia),
       };
-    // } catch (error) {
-    //   throw new HttpException(
-    //     error.message || '获取排行榜详情失败',
-    //     error.response?.status || HttpStatus.INTERNAL_SERVER_ERROR
-    //   );
-    // }
+    } catch (error) {
+      throw new HttpException(
+        error.message || '获取排行榜详情失败',
+        error.response?.status || HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
   }
 }

@@ -1,6 +1,7 @@
 import { Controller, Get, Query, Param, Post, Body } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiQuery, ApiParam, ApiBody } from '@nestjs/swagger';
 import { BiliService } from './bili.service';
+import { VOUtils } from '@/utils/voUtils';
 
 @ApiTags('Bilibili')
 @Controller('bili')
@@ -17,12 +18,14 @@ export class BiliController {
         @Query('page') page: number,
         @Query('type') type: string,
     ) {
+        let result = null;
         if (type === 'album' || type === 'music') {
-            return await this.biliService.searchAlbum(keyword, page);
+            result = await this.biliService.searchAlbum(keyword, page);
         }
         if (type === 'artist') {
-            return await this.biliService.searchArtist(keyword, page);
+            result =  await this.biliService.searchArtist(keyword, page);
         }
+        return VOUtils.success(result);
     }
 
     @Get('media/source')
@@ -38,7 +41,8 @@ export class BiliController {
         @Query('quality') quality: string,
     ) {
         const musicItem = { bvid, aid, cid }; // 根据ID获取音乐信息
-        return await this.biliService.getMediaSource(musicItem, quality);
+        const result =  await this.biliService.getMediaSource(musicItem, quality);
+        return VOUtils.success(result);
     }
 
     @Get('album/info')
@@ -50,7 +54,9 @@ export class BiliController {
         @Query('aid') aid: string,
     ) {
         const albumItem = { bvid, aid }; // 根据ID获取专辑信息
-        return await this.biliService.getAlbumInfo(albumItem);
+
+        const result =  await this.biliService.getAlbumInfo(albumItem);
+        return VOUtils.success(result);
     }
 
     @Get('artist/:id/works')
@@ -64,22 +70,25 @@ export class BiliController {
         @Query('type') type: string,
     ) {
         const artistItem = { id }; // 根据ID获取艺术家信息
-        return await this.biliService.getArtistWorks(artistItem, page, type);
+        const result = await this.biliService.getArtistWorks(artistItem, page, type);
+        return VOUtils.success(result);
     }
 
     @Get('toplists')
     @ApiOperation({ summary: '获取排行榜列表' })
     async getTopLists() {
-        return await this.biliService.getTopLists();
+        const result = await this.biliService.getTopLists();
+        return VOUtils.success(result);
     }
 
-    // @Get('toplist/detail')
-    // @ApiOperation({ summary: '获取排行榜详情' })
-    // @ApiQuery({ name: 'id', description: '排行榜ID' })
-    // async getTopListDetail(@Query('id') id: string) {
-    //     const topListItem = { id }; // 根据ID获取排行榜信息
-    //     return await this.biliService.getTopListDetail(topListItem);
-    // }
+    @Get('toplist/detail')
+    @ApiOperation({ summary: '获取排行榜详情' })
+    @ApiQuery({ name: 'id', description: '排行榜ID' })
+    async getTopListDetail(@Query('id') id: string) {
+        const topListItem = { id }; // 根据ID获取排行榜信息
+        const result =  await this.biliService.getTopListDetail(topListItem);
+        return VOUtils.success(result);
+    }
 
     // @Post('import/musicsheet')
     // @ApiOperation({ summary: '导入音乐列表' })
@@ -93,6 +102,7 @@ export class BiliController {
     @ApiParam({ name: 'aid', description: '音乐ID' })
     async getMusicComments(@Param('aid') aid: string) {
         const musicItem = { aid }; 
-        return await this.biliService.getMusicComments(musicItem);
+        const result = await this.biliService.getMusicComments(musicItem);
+        return VOUtils.success(result);
     }
 }
